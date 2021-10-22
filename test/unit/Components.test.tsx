@@ -24,3 +24,50 @@ describe("Отображение компонента Image", () => {
 `);
   });
 });
+
+describe("Отображение компонента CartBage", () => {
+  it("'Item in cart' не должен отображаться", () => {
+    const basename = "/hw/store";
+    const api = new ExampleApi(basename);
+    const cart = new CartApi();
+    cart.setState({});
+    const store = initStore(api, cart);
+
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <CartBadge id={1} />
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchInlineSnapshot(`null`);
+  });
+
+  it("'Item in cart' должен отображаться", () => {
+    const basename = "/hw/store";
+    const api = new ExampleApi(basename);
+    const product: CartItem = {
+      name: "Product",
+      price: 222,
+      count: 1,
+    };
+    const cart = new CartApi();
+    cart.setState({ 1: product });
+    const store = initStore(api, cart);
+
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <CartBadge id={1} />
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchInlineSnapshot(`
+<span
+  className="CartBadge text-success mx-3"
+>
+  Item in cart
+</span>
+`);
+  });
+});
