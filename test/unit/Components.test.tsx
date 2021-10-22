@@ -11,10 +11,21 @@ import { ExampleApi, CartApi } from "../../src/client/api";
 import { Provider } from "react-redux";
 import { initStore } from "../../src/client/store";
 import { Image } from "../../src/client/components/Image";
+import { Form } from "../../src/client/components/Form";
+import { Router } from "react-router";
+import { createMemoryHistory } from "history";
 
-import { CartItem, CartState, Product } from "../../src/common/types";
+import {
+  CartItem,
+  CartState,
+  CheckoutFormData,
+  Product,
+  ProductShortInfo,
+} from "../../src/common/types";
 import { CartBadge } from "../../src/client/components/CartBadge";
 import { ProductDetails } from "../../src/client/components/ProductDetails";
+import { ProductItem } from "../../src/client/components/ProductItem";
+import { delay } from "rxjs";
 
 describe("Отображение компонента Image", () => {
   it("Компонент Image должен содержать классы и картинку-заглушку", () => {
@@ -227,5 +238,37 @@ describe("Компонент ProductDetails", () => {
       1: item,
     };
     expect(cart.getState()).toEqual(cartItem);
+  });
+});
+
+describe("Компонент ProductItem", () => {
+  it("Клик по ссылке 'Details' должен переводить на страницу с товаром", () => {
+    const history = createMemoryHistory({
+      initialEntries: ["/catalog"],
+      initialIndex: 0,
+    });
+    const basename = "/hw/store";
+    const api = new ExampleApi(basename);
+    const cart = new CartApi();
+    cart.setState({});
+    const store = initStore(api, cart);
+
+    const product: ProductShortInfo = {
+      id: 1,
+      name: "Product",
+      price: 222,
+    };
+    const application = (
+      <Router history={history}>
+        <Provider store={store}>
+          <ProductItem product={product} />
+        </Provider>
+      </Router>
+    );
+
+    const { getByRole } = render(application);
+    const detailsLink = getByRole("link", { name: /details/i });
+    events.click(detailsLink);
+    expect(history.location.pathname).toEqual("/catalog/1");
   });
 });
