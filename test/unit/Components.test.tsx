@@ -170,37 +170,6 @@ describe("Компонент ProductDetails", () => {
 `);
   });
 
-  it("по нажатию на 'Add to cart' должен появляться 'Item in cart'", () => {
-    const product: Product = {
-      id: 1,
-      name: "Product",
-      price: 222,
-      description: "short description",
-      material: "steel",
-      color: "white",
-    };
-
-    const basename = "/hw/store";
-    const api = new ExampleApi(basename);
-    const cart = new CartApi();
-    cart.setState({});
-    const store = initStore(api, cart);
-    const application = (
-      <Provider store={store}>
-        <ProductDetails product={product} />
-      </Provider>
-    );
-
-    const { getByRole, getByText } = render(application);
-
-    const addToCartBtn = getByRole("button", {
-      name: /add to cart/i,
-    });
-    events.click(addToCartBtn);
-
-    expect(getByText(/item in cart/i).textContent).toEqual("Item in cart");
-  });
-
   it("по нажатию на 'Add to cart' товар должен добавляться в корзину", () => {
     const product: Product = {
       id: 1,
@@ -210,12 +179,21 @@ describe("Компонент ProductDetails", () => {
       material: "steel",
       color: "white",
     };
+    const sampleItem: CartItem = {
+      name: "Product",
+      price: 222,
+      count: 1,
+    };
+    const cartItem: CartState = {
+      1: sampleItem,
+    };
 
     const basename = "/hw/store";
     const api = new ExampleApi(basename);
     const cart = new CartApi();
     cart.setState({});
     const store = initStore(api, cart);
+
     const application = (
       <Provider store={store}>
         <ProductDetails product={product} />
@@ -229,14 +207,6 @@ describe("Компонент ProductDetails", () => {
     });
     events.click(addToCartBtn);
 
-    const item: CartItem = {
-      name: "Product",
-      price: 222,
-      count: 1,
-    };
-    const cartItem: CartState = {
-      1: item,
-    };
     expect(cart.getState()).toEqual(cartItem);
   });
 });
