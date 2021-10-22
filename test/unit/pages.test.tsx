@@ -5,6 +5,7 @@ import "@testing-library/jest-dom";
 import React from "react";
 import { it, expect } from "@jest/globals";
 import { render, screen, within } from "@testing-library/react";
+import events from "@testing-library/user-event";
 import { Router } from "react-router";
 import { createMemoryHistory } from "history";
 import { ExampleApi, CartApi } from "../../src/client/api";
@@ -220,5 +221,35 @@ describe("Отображение страницы /cart", () => {
     expect(productInfo).toContain("Product");
     expect(productInfo).toContain("$222");
     expect(productInfo).toContain("1");
+  });
+
+  it("при наличии товаров в корзине клик на  Clean shopping cart должен их удалять", () => {
+    const history = createMemoryHistory({
+      initialEntries: ["/cart"],
+      initialIndex: 0,
+    });
+    const basename = "/hw/store";
+    const api = new ExampleApi(basename);
+    const product: CartItem = {
+      name: "Product",
+      price: 222,
+      count: 1,
+    };
+    const cart = new CartApi();
+    cart.setState({ 1: product });
+    const store = initStore(api, cart);
+
+    const application = (
+      <Router history={history}>
+        <Provider store={store}>
+          <Cart />
+        </Provider>
+      </Router>
+    );
+
+    const { getByRole, queryByTestId } = render(application);
+    const cleanBtn = getByRole("button", { name: /clear shopping cart/i });
+    events.click(cleanBtn);
+    expect(queryByTestId(1)).toBeNull();
   });
 });
