@@ -155,6 +155,6 @@ describe("Отображение страницы /cart", () => {
     expect(
       getByRole("heading", { name: /shopping cart/i }).textContent
     ).toEqual("Shopping cart");
-    screen.logTestingPlaygroundURL();
+    // screen.logTestingPlaygroundURL();
   });
 });
