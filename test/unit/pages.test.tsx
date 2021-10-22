@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import "@testing-library/jest-dom";
 import React from "react";
 import { it, expect } from "@jest/globals";
