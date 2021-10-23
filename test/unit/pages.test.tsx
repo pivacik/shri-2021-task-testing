@@ -236,7 +236,7 @@ describe("Отображение страницы /cart", () => {
       count: 1,
     };
     const cart = new CartApi();
-    cart.setState({ 1: product });
+    cart.setState({ 1: product, 2: product });
     const store = initStore(api, cart);
 
     const application = (
@@ -251,5 +251,6 @@ describe("Отображение страницы /cart", () => {
     const cleanBtn = getByRole("button", { name: /clear shopping cart/i });
     events.click(cleanBtn);
     expect(queryByTestId(1)).toBeNull();
+    expect(queryByTestId(2)).toBeNull();
   });
 });
