@@ -171,7 +171,7 @@ describe("Компонент ProductDetails", () => {
 `);
   });
 
-  it("по нажатию на 'Add to cart' товар должен добавляться в корзину", () => {
+  it("по нажатию на 'Add to cart' количество товаров в корзине должно увеличиваться", () => {
     const product: Product = {
       id: 1,
       name: "Product",
@@ -179,14 +179,6 @@ describe("Компонент ProductDetails", () => {
       description: "short description",
       material: "steel",
       color: "white",
-    };
-    const sampleItem: CartItem = {
-      name: "Product",
-      price: 222,
-      count: 1,
-    };
-    const cartItem: CartState = {
-      1: sampleItem,
     };
 
     const basename = "/hw/store";
@@ -207,8 +199,14 @@ describe("Компонент ProductDetails", () => {
       name: /add to cart/i,
     });
     events.click(addToCartBtn);
+    expect(cart.getState()).toEqual({
+      1: { name: "Product", price: 222, count: 1 },
+    });
 
-    expect(cart.getState()).toEqual(cartItem);
+    events.click(addToCartBtn);
+    expect(cart.getState()).toEqual({
+      1: { name: "Product", price: 222, count: 2 },
+    });
   });
 
   it("при наличии товаро в корзине в шапке возле ссылки на Cart увеличивается счетчик товаров", () => {
@@ -238,48 +236,6 @@ describe("Компонент ProductDetails", () => {
 
     const { getByRole } = render(application);
     expect(getByRole("link", { name: /cart \(1\)/i })).toBeTruthy();
-  });
-
-  it("если товар уже в корзине клик по 'Add to cart' должен увеличивать его кол-во", () => {
-    const product: Product = {
-      id: 1,
-      name: "Product",
-      price: 222,
-      description: "short description",
-      material: "steel",
-      color: "white",
-    };
-    const sampleItem: CartItem = {
-      name: "Product",
-      price: 222,
-      count: 1,
-    };
-    const cartItem: CartState = {
-      1: sampleItem,
-    };
-
-    const basename = "/hw/store";
-    const api = new ExampleApi(basename);
-    const cart = new CartApi();
-    cart.setState(cartItem);
-    const store = initStore(api, cart);
-
-    const application = (
-      <Provider store={store}>
-        <ProductDetails product={product} />
-      </Provider>
-    );
-
-    const { getByRole } = render(application);
-
-    const addToCartBtn = getByRole("button", {
-      name: /add to cart/i,
-    });
-    events.click(addToCartBtn);
-
-    expect(cart.getState()).toEqual({
-      1: { name: "Product", price: 222, count: 2 },
-    });
   });
 });
 
