@@ -237,7 +237,6 @@ describe("Компонент ProductDetails", () => {
     );
 
     const { getByRole } = render(application);
-    screen.logTestingPlaygroundURL();
     expect(getByRole("link", { name: /cart \(1\)/i })).toBeTruthy();
   });
 
