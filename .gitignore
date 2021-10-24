@@ -4,5 +4,6 @@ NOTES.md
 Dockerfile
 .dockerignore
 .DS_Store
+.hermione.conf.js
 hermione-html-report/
 hermione
