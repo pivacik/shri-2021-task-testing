@@ -33,6 +33,7 @@ import { ProductDetails } from "../../src/client/components/ProductDetails";
 import { ProductItem } from "../../src/client/components/ProductItem";
 import { Application } from "../../src/client/Application";
 import { Cart } from "../../src/client/pages/Cart";
+import { Catalog } from "../../src/client/pages/Catalog";
 
 describe("Отображение компонента Image", () => {
   it("Компонент Image должен содержать классы и картинку-заглушку", () => {
@@ -441,5 +442,41 @@ describe("Проверка  Cart", () => {
     expect(
       getByText(/order # has been successfully completed\./i)
     ).toBeTruthy();
+  });
+});
+
+describe("Отображение  Catalog", () => {
+  const history = createMemoryHistory({
+    initialEntries: ["/catalog"],
+    initialIndex: 0,
+  });
+  const api = new ExampleApi("");
+  const cart = new CartApi();
+  const store = initStore(api, cart);
+  it("Выводится короткая информация о товарах", async () => {
+    const product1 = {
+      id: 1,
+      name: "Pants",
+      price: 34,
+    } as ProductShortInfo;
+    const product2 = {
+      id: 2,
+      name: "Chair",
+      price: 2344,
+    } as ProductShortInfo;
+
+    const application = (
+      <Router history={history}>
+        <Provider store={store}>
+          <Catalog />
+        </Provider>
+      </Router>
+    );
+    const { getAllByTestId } = render(application);
+    store.dispatch(productsLoaded([product1, product2]));
+    const productId1 = getAllByTestId("1");
+    const productId2 = getAllByTestId("2");
+    expect(productId1[0]).toMatchSnapshot();
+    expect(productId2[0]).toMatchSnapshot();
   });
 });
