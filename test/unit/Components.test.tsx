@@ -9,12 +9,17 @@ import { render, screen } from "@testing-library/react";
 import events from "@testing-library/user-event";
 import { ExampleApi, CartApi } from "../../src/client/api";
 import { Provider } from "react-redux";
-import { initStore, productsLoaded } from "../../src/client/store";
+import {
+  checkoutComplete,
+  initStore,
+  productsLoaded,
+} from "../../src/client/store";
 import { Image } from "../../src/client/components/Image";
 import { Form } from "../../src/client/components/Form";
 import { Router } from "react-router";
 import { createMemoryHistory } from "history";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 import {
   CartItem,
@@ -27,6 +32,7 @@ import { CartBadge } from "../../src/client/components/CartBadge";
 import { ProductDetails } from "../../src/client/components/ProductDetails";
 import { ProductItem } from "../../src/client/components/ProductItem";
 import { Application } from "../../src/client/Application";
+import { Cart } from "../../src/client/pages/Cart";
 
 describe("Отображение компонента Image", () => {
   it("Компонент Image должен содержать классы и картинку-заглушку", () => {
@@ -406,5 +412,34 @@ describe("Проверка Helmet", () => {
     render(application);
     const helmet = Helmet.peek();
     expect(helmet.title).toEqual("Contacts — Example store");
+  });
+});
+
+describe("Проверка  Cart", () => {
+  const history = createMemoryHistory({
+    initialEntries: ["/cart"],
+    initialIndex: 0,
+  });
+  const api = new ExampleApi("");
+
+  it("Сообщение об оформлении заказа выводится", async () => {
+    const cart = new CartApi();
+
+    const store = initStore(api, cart);
+    store.dispatch(checkoutComplete(42));
+    const application = (
+      <Router history={history}>
+        <Provider store={store}>
+          <Cart />
+        </Provider>
+      </Router>
+    );
+
+    const { getByText } = render(application);
+
+    expect(getByText(/42/i)).toBeTruthy();
+    expect(
+      getByText(/order # has been successfully completed\./i)
+    ).toBeTruthy();
   });
 });
