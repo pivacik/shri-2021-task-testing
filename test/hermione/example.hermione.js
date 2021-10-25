@@ -165,3 +165,23 @@ describe("Form компонент", async function () {
     });
   });
 });
+
+describe("Cart в navbar", async function () {
+  it("При обновлении страницы товары из корзины не исчезают", async function () {
+    const browser = this.browser;
+    await browser.setWindowSize(1000, 1200);
+    await browser.url("/hw/store/catalog");
+
+    const detailsLink = await browser.$(".ProductItem-DetailsLink.card-link");
+    await browser.waitUntil(() => detailsLink.isClickable(), 2000);
+    await detailsLink.click();
+    const addToCartBtn = await browser.$(".ProductDetails-AddToCart.btn");
+    await browser.waitUntil(() => addToCartBtn.isClickable(), 2000);
+    await addToCartBtn.click();
+    await browser.refresh();
+
+    await browser.assertView("plain-item-in-cart", ".navbar", {
+      compositeImage: true,
+    });
+  });
+});
