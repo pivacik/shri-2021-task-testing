@@ -114,6 +114,17 @@ describe("Header при ширине меньше 576 ", async function () {
   });
 });
 
+describe("Header при ширине  320 ", async function () {
+  it("При бургер должен отображаться корректно", async function () {
+    const browser = this.browser;
+    await browser.setWindowSize(320, 1000);
+    await browser.url("/hw/store/contacts");
+    await browser.assertView("plain", ".navbar", {
+      compositeImage: true,
+    });
+  });
+});
+
 describe("Form компонент", async function () {
   it("При невалидных данных должен подсвечивать поля с ошибкой", async function () {
     const browser = this.browser;
@@ -126,8 +137,12 @@ describe("Form компонент", async function () {
     const addToCartBtn = await browser.$(".ProductDetails-AddToCart.btn");
     await browser.waitUntil(() => addToCartBtn.isClickable(), 2000);
     await addToCartBtn.click();
+    await addToCartBtn.click();
     await browser.url("/hw/store/cart");
 
+    await browser.assertView("plain", ".navbar", {
+      compositeImage: true,
+    });
     const checkoutBtn = await browser.$(".Form-Submit");
     const form = await browser.$(".Form");
     await checkoutBtn.scrollIntoView();
