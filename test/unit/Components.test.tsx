@@ -279,33 +279,6 @@ describe("Компонент ProductItem", () => {
 });
 
 describe("Компонент Form", () => {
-  it("При валидных данных в форме, в Submit передаются введенные данные", () => {
-    let submitedDataSTUB = {};
-    const onSubmitSTUB = (data: CheckoutFormData) => {
-      submitedDataSTUB = data;
-    };
-
-    const application = <Form onSubmit={onSubmitSTUB} />;
-
-    const { getByRole } = render(application);
-    const nameInput = getByRole("textbox", { name: /name/i });
-    const phoneInput = getByRole("textbox", { name: /phone/i });
-    const addressInput = getByRole("textbox", { name: /address/i });
-    const checkoutBtn = getByRole("button", { name: /checkout/i });
-
-    const sampleDataSTUB = {
-      name: "name",
-      phone: "89005553535",
-      address: "Howw",
-    };
-    events.type(nameInput, sampleDataSTUB.name);
-    events.type(phoneInput, sampleDataSTUB.phone);
-    events.paste(addressInput, sampleDataSTUB.address);
-
-    events.click(checkoutBtn);
-    expect(submitedDataSTUB).toEqual(sampleDataSTUB);
-  });
-
   it("При отправке формы без валидных данных, данные не отправляются", () => {
     let submitedDataSTUB = {};
     const onSubmitSTUB = (data: CheckoutFormData) => {
