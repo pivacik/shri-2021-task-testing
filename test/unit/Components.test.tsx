@@ -216,21 +216,26 @@ describe("Компонент ProductDetails", () => {
     });
   });
 
-  it("при наличии товаро в корзине в шапке возле ссылки на Cart увеличивается счетчик товаров", () => {
+  it("при наличии нескольких товаро в корзине в шапке возле ссылки на Cart верное число уникальных товаров", () => {
     const history = createMemoryHistory({
       initialEntries: ["/catalog"],
       initialIndex: 0,
     });
-    const sampleItem: CartItem = {
-      name: "Product",
-      price: 222,
-      count: 1,
+    const sampleItem1: CartItem = {
+      name: "Pants",
+      price: 22,
+      count: 2,
+    };
+    const sampleItem2: CartItem = {
+      name: "Chair",
+      price: 342,
+      count: 2,
     };
 
     const basename = "/hw/store";
     const api = new ExampleApi(basename);
     const cart = new CartApi();
-    cart.setState({ 1: sampleItem });
+    cart.setState({ 1: sampleItem1, 2: sampleItem2 });
     const store = initStore(api, cart);
 
     const application = (
@@ -242,7 +247,7 @@ describe("Компонент ProductDetails", () => {
     );
 
     const { getByRole } = render(application);
-    expect(getByRole("link", { name: /cart \(1\)/i })).toBeTruthy();
+    expect(getByRole("link", { name: /cart \(2\)/i })).toBeTruthy();
   });
 });
 
