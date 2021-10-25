@@ -114,10 +114,18 @@ describe("Header при ширине меньше 576 ", async function () {
   });
 });
 
-describe("Header при ширине  320 ", async function () {
-  it("При бургер должен отображаться корректно", async function () {
+describe("Наличие бургера ", async function () {
+  it("При ширине 320 бургер должен отображаться корректно", async function () {
     const browser = this.browser;
     await browser.setWindowSize(320, 1000);
+    await browser.url("/hw/store/contacts");
+    await browser.assertView("plain", ".navbar", {
+      compositeImage: true,
+    });
+  });
+  it("При ширине 1000 бургер не должен отображаться", async function () {
+    const browser = this.browser;
+    await browser.setWindowSize(1000, 1000);
     await browser.url("/hw/store/contacts");
     await browser.assertView("plain", ".navbar", {
       compositeImage: true,
