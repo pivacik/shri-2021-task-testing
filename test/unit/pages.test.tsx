@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom";
 import React from "react";
 import { it, expect } from "@jest/globals";
-import { render, screen, within } from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import events from "@testing-library/user-event";
 import { Router } from "react-router";
 import { createMemoryHistory } from "history";
@@ -41,7 +41,6 @@ describe("Отображение страницы /home", () => {
     expect(getByText(/welcome to example store!/i).textContent).toEqual(
       "Welcome to Example store!"
     );
-    // screen.logTestingPlaygroundURL();
   });
 });
 
@@ -72,7 +71,6 @@ describe("Отображение страницы /catalog", () => {
     expect(getByRole("heading", { name: /catalog/i }).textContent).toEqual(
       "Catalog"
     );
-    // screen.logTestingPlaygroundURL();
   });
 });
 
@@ -102,7 +100,6 @@ describe("Отображение страницы /delivery", () => {
     expect(getByRole("heading", { name: /delivery/i }).textContent).toEqual(
       "Delivery"
     );
-    // screen.logTestingPlaygroundURL();
   });
 });
 
@@ -113,7 +110,6 @@ describe("Отображение страницы /contacts", () => {
       initialEntries: ["/contacts"],
       initialIndex: 0,
     });
-
     const basename = "/hw/store";
 
     const api = new ExampleApi(basename);
@@ -132,20 +128,19 @@ describe("Отображение страницы /contacts", () => {
     expect(getByRole("heading", { name: /contacts/i }).textContent).toEqual(
       "Contacts"
     );
-    // screen.logTestingPlaygroundURL();
   });
 });
+
 // --SHOPPING CART--
 describe("Отображение страницы /cart", () => {
+  const history = createMemoryHistory({
+    initialEntries: ["/cart"],
+    initialIndex: 0,
+  });
+  const basename = "/hw/store";
+  const api = new ExampleApi(basename);
+
   it('по адресу /cart должна открываться страница "Shopping Cart"', () => {
-    const history = createMemoryHistory({
-      initialEntries: ["/cart"],
-      initialIndex: 0,
-    });
-
-    const basename = "/hw/store";
-
-    const api = new ExampleApi(basename);
     const cart = new CartApi();
     const store = initStore(api, cart);
     const application = (
@@ -161,16 +156,9 @@ describe("Отображение страницы /cart", () => {
     expect(
       getByRole("heading", { name: /shopping cart/i }).textContent
     ).toEqual("Shopping cart");
-    // screen.logTestingPlaygroundURL();
   });
 
   it("если корзина пустая должна быть ссылка на Catalog", () => {
-    const history = createMemoryHistory({
-      initialEntries: ["/cart"],
-      initialIndex: 0,
-    });
-    const basename = "/hw/store";
-    const api = new ExampleApi(basename);
     const cart = new CartApi();
     cart.setState({});
     const store = initStore(api, cart);
@@ -189,12 +177,6 @@ describe("Отображение страницы /cart", () => {
   });
 
   it("если в корзине есть товары должна быть таблица с этим товаром", () => {
-    const history = createMemoryHistory({
-      initialEntries: ["/cart"],
-      initialIndex: 0,
-    });
-    const basename = "/hw/store";
-    const api = new ExampleApi(basename);
     const product: CartItem = {
       name: "Product",
       price: 222,
@@ -224,12 +206,6 @@ describe("Отображение страницы /cart", () => {
   });
 
   it("при наличии товаров в корзине клик на  Clean shopping cart должен их удалять", () => {
-    const history = createMemoryHistory({
-      initialEntries: ["/cart"],
-      initialIndex: 0,
-    });
-    const basename = "/hw/store";
-    const api = new ExampleApi(basename);
     const product: CartItem = {
       name: "Product",
       price: 222,
