@@ -19,8 +19,6 @@ import axios from "axios";
 import { CartItem, CheckoutFormData } from "../../src/common/types";
 import { Cart } from "../../src/client/pages/Cart";
 
-import { Store } from "redux";
-
 jest.mock("axios");
 describe("Проверка оформления Cart", () => {
   const formData = {
