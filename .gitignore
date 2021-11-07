@@ -6,5 +6,4 @@ Dockerfile
 .DS_Store
 .hermione.conf.js
 hermione-html-report/
-test/hermione/Adaptive.hermione.js
 # hermione
