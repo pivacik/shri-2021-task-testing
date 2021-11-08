@@ -1,118 +1,227 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`1 В каталоге должны отображаться товары, список которых приходит с сервера 1`] = `
-<table
-  class="Cart-Table table"
+exports[`1 Верстка страницы корзины с товарами внутри 1`] = `
+<div
+  class="Cart"
 >
-  <thead>
-    <tr>
-      <th
-        scope="col"
-      >
-        #
-      </th>
-      <th
-        scope="col"
-      >
-        Product
-      </th>
-      <th
-        scope="col"
-      >
-        Price
-      </th>
-      <th
-        scope="col"
-      >
-        Count
-      </th>
-      <th
-        scope="col"
-      >
-        Total
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      data-testid="1"
+  <div
+    class="row mb-4"
+  >
+    <div
+      class="col"
     >
-      <th
-        class="Cart-Index"
-        scope="row"
+      <h1>
+        Shopping cart
+      </h1>
+      <table
+        class="Cart-Table table"
       >
-        1
-      </th>
-      <td
-        class="Cart-Name"
-      >
-        Pants
-      </td>
-      <td
-        class="Cart-Price"
-      >
-        $
-        1102
-      </td>
-      <td
-        class="Cart-Count"
-      >
-        3
-      </td>
-      <td
-        class="Cart-Total"
-      >
-        $
-        3306
-      </td>
-    </tr>
-    <tr
-      data-testid="2"
+        <thead>
+          <tr>
+            <th
+              scope="col"
+            >
+              #
+            </th>
+            <th
+              scope="col"
+            >
+              Product
+            </th>
+            <th
+              scope="col"
+            >
+              Price
+            </th>
+            <th
+              scope="col"
+            >
+              Count
+            </th>
+            <th
+              scope="col"
+            >
+              Total
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            data-testid="1"
+          >
+            <th
+              class="Cart-Index"
+              scope="row"
+            >
+              1
+            </th>
+            <td
+              class="Cart-Name"
+            >
+              Pants
+            </td>
+            <td
+              class="Cart-Price"
+            >
+              $
+              1102
+            </td>
+            <td
+              class="Cart-Count"
+            >
+              3
+            </td>
+            <td
+              class="Cart-Total"
+            >
+              $
+              3306
+            </td>
+          </tr>
+          <tr
+            data-testid="2"
+          >
+            <th
+              class="Cart-Index"
+              scope="row"
+            >
+              2
+            </th>
+            <td
+              class="Cart-Name"
+            >
+              Chair
+            </td>
+            <td
+              class="Cart-Price"
+            >
+              $
+              200
+            </td>
+            <td
+              class="Cart-Count"
+            >
+              1
+            </td>
+            <td
+              class="Cart-Total"
+            >
+              $
+              200
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td
+              colspan="4"
+            >
+              Order price:
+            </td>
+            <td
+              class="Cart-OrderPrice"
+            >
+              $
+              3506
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div
+    class="row mb-4"
+  >
+    <div
+      class="col-6"
     >
-      <th
-        class="Cart-Index"
-        scope="row"
+      <button
+        class="Cart-Clear btn btn-outline-secondary"
       >
-        2
-      </th>
-      <td
-        class="Cart-Name"
+        Clear shopping cart
+      </button>
+    </div>
+  </div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12 col-sm-8 col-md-6 col-lg-4"
+    >
+      <h2>
+        Сheckout
+      </h2>
+      <div
+        class="Form"
       >
-        Chair
-      </td>
-      <td
-        class="Cart-Price"
-      >
-        $
-        200
-      </td>
-      <td
-        class="Cart-Count"
-      >
-        1
-      </td>
-      <td
-        class="Cart-Total"
-      >
-        $
-        200
-      </td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td
-        colspan="4"
-      >
-        Order price:
-      </td>
-      <td
-        class="Cart-OrderPrice"
-      >
-        $
-        3506
-      </td>
-    </tr>
-  </tfoot>
-</table>
+        <div
+          class="mb-3"
+        >
+          <label
+            class="form-label"
+            for="f-name"
+          >
+            Name
+          </label>
+          <input
+            autocomplete="off"
+            class="Form-Field Form-Field_type_name form-control"
+            id="f-name"
+            type="text"
+          />
+          <div
+            class="invalid-feedback"
+          >
+            Please provide your name
+          </div>
+        </div>
+        <div
+          class="mb-3"
+        >
+          <label
+            class="form-label"
+            for="f-phone"
+          >
+            Phone
+          </label>
+          <input
+            class="Form-Field Form-Field_type_phone form-control"
+            id="f-phone"
+            type="text"
+          />
+          <div
+            class="invalid-feedback"
+          >
+            Please provide a valid phone
+          </div>
+        </div>
+        <div
+          class="mb-3"
+        >
+          <label
+            class="form-label"
+            for="f-address"
+          >
+            Address
+          </label>
+          <textarea
+            class="Form-Field Form-Field_type_address form-control"
+            id="f-address"
+            rows="3"
+          />
+          <div
+            class="invalid-feedback"
+          >
+            Please provide a valid address
+          </div>
+        </div>
+        <button
+          class="Form-Submit btn btn-primary"
+        >
+          Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 `;

@@ -16,6 +16,7 @@ import { MemoryRouter } from "react-router";
 import { CartItem, ProductShortInfo } from "../../src/common/types";
 import { AxiosResponse } from "axios";
 import { Cart } from "../../src/client/pages/Cart";
+import { container } from "webpack";
 
 function mockResponse<T>(data: T): AxiosResponse<T, any> {
   return {
@@ -27,7 +28,7 @@ function mockResponse<T>(data: T): AxiosResponse<T, any> {
   };
 }
 describe("1", () => {
-  it("В каталоге должны отображаться товары, список которых приходит с сервера", async () => {
+  it("Верстка страницы корзины с товарами внутри", async () => {
     const api = new ExampleApi("");
     const product1: CartItem = {
       name: "Pants",
@@ -50,8 +51,9 @@ describe("1", () => {
         </Provider>
       </MemoryRouter>
     );
-    const { getByRole } = render(component);
-    const table = getByRole("table");
-    expect(table).toMatchSnapshot();
+    const { container } = render(component);
+    const cartLayout = container.querySelector(".Cart");
+    expect(cartLayout).toMatchSnapshot();
+    screen.logTestingPlaygroundURL();
   });
 });
