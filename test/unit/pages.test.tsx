@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom";
 import React from "react";
 import { it, expect } from "@jest/globals";
-import { render, within } from "@testing-library/react";
+import { render, within, screen } from "@testing-library/react";
 import events from "@testing-library/user-event";
 import { Router } from "react-router";
 import { createMemoryHistory } from "history";
@@ -223,10 +223,22 @@ describe("Отображение страницы /cart", () => {
       </Router>
     );
 
-    const { getByRole, queryByTestId } = render(application);
-    const cleanBtn = getByRole("button", { name: /clear shopping cart/i });
+    const { queryByRole, getByText, container } = render(application);
+    const cleanBtn = queryByRole("button", { name: /clear shopping cart/i });
     events.click(cleanBtn);
-    expect(queryByTestId(1)).toBeNull();
-    expect(queryByTestId(2)).toBeNull();
+    const table = queryByRole("table");
+    const form = container.querySelector(".Form");
+    const checkoutHeading = queryByRole("heading", {
+      name: /сheckout/i,
+    });
+    const emptyCardText = getByText(
+      /cart is empty\. please select products in the \./i
+    );
+    expect(table).toBe(null);
+    expect(form).toBe(null);
+    expect(checkoutHeading).toBe(null);
+    expect(emptyCardText).toBeTruthy();
+
+    screen.logTestingPlaygroundURL();
   });
 });
